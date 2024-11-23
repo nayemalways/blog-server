@@ -7,7 +7,6 @@ import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
 import router from "./routes/api.js";
 import dotenv from 'dotenv';
-import { WEB_CACHE } from "./app/config/config.js";
 dotenv.config();
 
 
@@ -27,7 +26,7 @@ const limitter = rateLimit({windowMs: process.env.REQUEST_LIMIT_TIME, max: proce
 app.use(limitter);
 
 // WEB CACHE
-app.set('etag', WEB_CACHE );
+app.set('etag', false );
 
 // STATCI FOLDER
 app.use(express.static('storage'));
