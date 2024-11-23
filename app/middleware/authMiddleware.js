@@ -4,6 +4,9 @@ export const authVerify =  (req, res, next) => {
     const token = req.headers['token'];
     let Decoded = DecodeToken(token);
 
+    console.log(Decoded);
+    
+
     if(Decoded === null){
         res.status(401).json({status: "Fail", message: "Unauthorized"});
     }else{
