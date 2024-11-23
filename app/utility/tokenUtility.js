@@ -21,4 +21,3 @@ export const DecodeToken = (token) => {
         return error.toString();
     }
 };
-

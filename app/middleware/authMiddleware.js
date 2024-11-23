@@ -1,6 +1,6 @@
 import { DecodeToken } from "../utility/tokenUtility.js";
 
-export const authVerify = (req, res, next) => {
+export const authVerify =  (req, res, next) => {
     const token = req.headers['token'];
     let Decoded = DecodeToken(token);
 
@@ -17,4 +17,3 @@ export const authVerify = (req, res, next) => {
     }
 };
 
-export default authVerify;
