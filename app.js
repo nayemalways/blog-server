@@ -28,15 +28,26 @@ app.use(limitter);
 // WEB CACHE
 app.set('etag', false );
 
-// STATCI FOLDER
+// STATIC FOLDER
 app.use(express.static('storage'));
 
 // DATABASE CONNECTION
-mongoose.connect(process.env.DATABASE, {autoIndex: true}).then(() => {
-    console.log(`Database connected`);
-}).catch((e) => {
-    console.log(e);
-})
+let options = {
+    user: process.env.DB_USERNAME,
+    pass: process.env.DB_PASSWORD,
+    autoIndex: true,
+    serverSelectionTimeoutMS: 30000 // ৩০ সেকেন্ড
+};
+mongoose.connect(process.env.DATABASE, options)
+    .then((res) => {
+        console.log('DB connect success');
+    })
+    .catch((err) => {
+        console.log(err);
+
+    });
+
+
 
 // ROUTING
 app.use('/api',  router);
