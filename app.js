@@ -6,8 +6,7 @@ import hpp from 'hpp';
 import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
 import router from "./routes/api.js";
-import dotenv from 'dotenv';
-dotenv.config();
+import {DATABASE, PORT, REQUEST_LIMIT_NUMBER, REQUEST_LIMIT_TIME, WEB_CACHE, URL_ENCODED, MAX_JSON_SIZE, DB_USERNAME, DB_PASSWORD} from './app/config/config.js';
 
 
 // APP
@@ -18,11 +17,11 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 app.use(hpp());
-app.use(express.urlencoded({extended:process.env.URL_ENCODED}));
-app.use(express.json({limit: process.env.MAX_JSON_SIZE}));
+app.use(express.urlencoded({extended: URL_ENCODED}));
+app.use(express.json({limit: MAX_JSON_SIZE}));
 
 // REQUEST LIMITTER
-const limitter = rateLimit({windowMs: process.env.REQUEST_LIMIT_TIME, max: process.env.REQUEST_LIMIT_NUMBER});
+const limitter = rateLimit({windowMs: REQUEST_LIMIT_TIME, max: REQUEST_LIMIT_NUMBER});
 app.use(limitter);
 
 // WEB CACHE
@@ -33,12 +32,12 @@ app.use(express.static('storage'));
 
 // DATABASE CONNECTION
 let options = {
-    user: process.env.DB_USERNAME,
-    pass: process.env.DB_PASSWORD,
+    user:  DB_USERNAME,
+    pass:  DB_PASSWORD,
     autoIndex: true,
     serverSelectionTimeoutMS: 30000 // ৩০ সেকেন্ড
 };
-mongoose.connect(process.env.DATABASE, options)
+mongoose.connect(DATABASE, options)
     .then((res) => {
         console.log('DB connect success');
     })
@@ -54,6 +53,6 @@ app.use('/api',  router);
 
 
 // *** APPLICATION LISTENING ***
-app.listen(process.env.PORT, () => {
-    console.log(`Application running on http://localhost:${process.env.PORT}`);
+app.listen(PORT, () => {
+    console.log(`Application running on http://localhost:${PORT}`);
 })
