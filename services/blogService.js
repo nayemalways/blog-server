@@ -7,21 +7,20 @@ const {ObjectId} = mongoose.Types;
 // Blog Creating
 export const BlogCreateServices = async (req) => {
     try {
-       const userId = req.headers['user_id'];
-       const reqBody = req.body;
-       reqBody.userId = userId;
 
+      const userId = req.headers['user_id'];
+      const reqBody = req.body;
+      reqBody.userId = userId;
 
-       if(reqBody.title && reqBody.description){
-
+      // Checked important data found or not from user's . If found it will create Blogs
+      if(reqBody.title && reqBody.description){
          const data = await BlogModel.create(reqBody);
          return{status: "success", data: data}
-         
        } 
 
 
-       return {status: "failed", message: "Blog can't create"};
-
+      // If not created Blogs than return this response
+      return {status: "failed", message: "Blog can't create"};
 
     }catch(e){
        return {status: "Error", message: e.toString()}
