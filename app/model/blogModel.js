@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 const DataSchema = mongoose.Schema(
 {
    title: {type: String, required: true},
-   description: {type: String, required: true}
+   description: {type: String, required: true},
+   img: {type: String},
+   userId: {type: String, required: true}
 },
 {
     timestamps: true,

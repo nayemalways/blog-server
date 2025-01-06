@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "5316afb0-4b63-4c15-ae75-3bdcbead9890",
+		"name": "Blog Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38180156"
+	},
+	"item": [
+		{
+			"name": "Register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"sumaiya@gmial.com\",\r\n    \"password\": \"6256\",\r\n    \"firstName\": \"Sumaiya\",\r\n    \"lastName\": \"Islam\",\r\n    \"phone\": \"01783795801\",\r\n    \"img\": \"image/api/Sumaiya.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}Register",
+					"host": [
+						"{{BASE_URL}}Register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"nuralom@gmial.com\",\r\n    \"password\": \"1954\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}Login",
+					"host": [
+						"{{BASE_URL}}Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Blog Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im51cmFsb21AZ21pYWwuY29tIiwiVXNlcl9pZCI6IjY3NDE3ODQ3ZjkyMDZjZTBlMDI0ODllMyIsImlhdCI6MTczMjM0Nzc1NiwiZXhwIjoxNzM0OTM5NzU2fQ.o52LREJv0AUumPhiRxfKAk5WVpYSb267asnB0IbCbw0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Video Editor\",\r\n    \"description\": \"Complete video editing courese. Duration 06 month with free resource for practice. Hands on indestry standard support and project.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}blogCreate",
+					"host": [
+						"{{BASE_URL}}blogCreate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read All Blog",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}ReadAll",
+					"host": [
+						"{{BASE_URL}}ReadAll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read single blog",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}ReadSingle/6741a30e092eb87b99c2e0fb",
+					"host": [
+						"{{BASE_URL}}ReadSingle"
+					],
+					"path": [
+						"6741a30e092eb87b99c2e0fb"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": " http://localhost:3002/api/",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1bWFpeWFAZ21pYWwuY29tIiwiVXNlcl9pZCI6IjY3NDFkYTI5NDA1MTI4ZjViYzBkMTllNSIsImlhdCI6MTczMjM3MDY4OSwiZXhwIjoxNzM0OTYyNjg5fQ.VUKA2a5H-VR7oIgz3aGk4Cfi-tSo2n9PzoFy9q4e4GA",
+			"type": "string"
+		}
+	]
+}

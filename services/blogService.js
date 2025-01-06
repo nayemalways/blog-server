@@ -7,13 +7,21 @@ const {ObjectId} = mongoose.Types;
 // Blog Creating
 export const BlogCreateServices = async (req) => {
     try {
+       const userId = req.headers['user_id'];
        const reqBody = req.body;
+       reqBody.userId = userId;
+
+
        if(reqBody.title && reqBody.description){
+
          const data = await BlogModel.create(reqBody);
          return{status: "success", data: data}
+         
        }else{
          return {status: "failed", message: "Blog can't create"};
        }
+
+
     }catch(e){
        return {status: "Error", message: e.toString()}
     }
@@ -21,7 +29,7 @@ export const BlogCreateServices = async (req) => {
 
 
   // Read All Blog
-export const AllBlogReadServices = async () => {
+export const AllBlogReadServices = async (req) => {
   try {
     const data = await BlogModel.find();
      if(!data || data.length === 0){
