@@ -17,9 +17,10 @@ export const BlogCreateServices = async (req) => {
          const data = await BlogModel.create(reqBody);
          return{status: "success", data: data}
          
-       }else{
-         return {status: "failed", message: "Blog can't create"};
-       }
+       } 
+
+
+       return {status: "failed", message: "Blog can't create"};
 
 
     }catch(e){
