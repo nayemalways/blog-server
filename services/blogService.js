@@ -28,32 +28,39 @@ export const BlogCreateServices = async (req) => {
   };
 
 
-  // Read All Blog
-export const AllBlogReadServices = async (req) => {
+  // Read All Blogs
+export const AllBlogReadServices = async () => {
   try {
+
     const data = await BlogModel.find();
-     if(!data || data.length === 0){
-       return res.status(400).json({status: "failed", message: "Blog can't read"});
-     }else{
-       return  {status: "success", data: data};
-     }
+    return  {status: "success", data: data};
+
   }catch(e){
      return {status: "Error", message: e.toString()}
   }
 };
 
- // Read Single Blog
- export const singleBlogRead = async (req) => {
+
+
+
+ // Blog details
+ export const blogDetailsService = async (req) => {
   try {
+
     const id = new ObjectId(req.params.id);
     const query = {_id: id};
     const data = await BlogModel.find(query);
+
+
      if(!data || data.length === 0){
-       return  {status: "failed", message: "Blog read create"};
+       return  {status: "failed", message: "No blog found"};
      }else{
        return  {status: "success", data: data};
      }
+
+
   }catch(e){
-     return {status: "Error", message: e.toString()}
+    console.log(e.toString());
+     return {status: "Error", message: "Internal server error"}
   }
 };

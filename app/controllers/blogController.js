@@ -1,4 +1,4 @@
-import { AllBlogReadServices, BlogCreateServices, singleBlogRead } from "../../services/blogService.js"
+import { AllBlogReadServices, BlogCreateServices, blogDetailsService } from "../../services/blogService.js"
 
 // Create New Blog
 export const blogCreate = async (req, res) => {
@@ -10,7 +10,7 @@ export const blogCreate = async (req, res) => {
     }
 }
 
-// Read all the blog
+// Read all blogs
 export const ReadAllBlog = async (req, res) => {
     try {
         const result = await AllBlogReadServices(req);
@@ -19,10 +19,13 @@ export const ReadAllBlog = async (req, res) => {
 
     }
 }
+
+
+
 // Read single the blog
-export const ReadSingleBlog = async (req, res) => {
+export const blogDetails = async (req, res) => {
     try {
-        const result = await singleBlogRead(req);
+        const result = await blogDetailsService(req);
         res.json(result)
     }catch(e) {
         res.status(400).json({status: "Error", error: e.toString});
