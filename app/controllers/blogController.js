@@ -1,4 +1,12 @@
-import { AllBlogReadServices, BlogCreateServices, blogDetailsService, UpdateBlogService } from "../../services/blogService.js"
+import { 
+    AllBlogReadServices, 
+    BlogCreateServices, 
+    blogDetailsService, 
+    DeleteBlogService, 
+    UpdateBlogService 
+} from "../../services/blogService.js";
+
+
 
 // Create New Blog
 export const blogCreate = async (req, res) => {
@@ -14,6 +22,13 @@ export const blogCreate = async (req, res) => {
 // Update blog 
 export const updateBlog = async (req, res) => {
     const result = await UpdateBlogService(req);
+    res.json(result);
+}
+
+
+// Delete blog 
+export const deleteBlog = async (req, res) => {
+    const result = await DeleteBlogService(req);
     res.json(result);
 }
 

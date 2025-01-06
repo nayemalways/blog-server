@@ -45,6 +45,24 @@ export const BlogCreateServices = async (req) => {
     }
   }
 
+
+
+  // Delete blogs
+  export const DeleteBlogService = async (req) => {
+    try {
+      const userId = req.headers['user_id'];
+      const blogId = req.params['blogId'];
+
+      await BlogModel.deleteOne( { _id: blogId, userId: userId }); // Delete the blog
+      return {status: "success", message: "Blog delete success"}; // Returns response after delete has complete
+
+  }catch(e) {
+    console.log(e.toString());
+    return {status: "Error", message: "Internal server error"};
+  }
+  }
+
+
   // Read All Blogs
 export const AllBlogReadServices = async () => {
   try {

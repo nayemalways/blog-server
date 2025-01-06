@@ -17,9 +17,10 @@ router.post('/Register', userController.Register);
 router.post('/Login', userController.Login);
 router.post('/post-blog', authVerify, blogController.blogCreate);
 router.put('/update-blog/:blogId', authVerify, blogController.updateBlog);
+router.delete('/delete/:blogId', authVerify, blogController.deleteBlog);
 
 
-// Blog Services APi
+// Blog global services APi
 router.get('/blogs', blogController.ReadAllBlog);
 router.get('/blog-details/:id', authVerify, blogController.blogDetails);
 router.get('/categories', categoryControllers.CategoryList);
