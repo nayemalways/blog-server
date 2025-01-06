@@ -1,9 +1,12 @@
 // Dependencies
-import BlogModel from "../app/model/blogModel.js";
-import mongoose from 'mongoose';
 const {ObjectId} = mongoose.Types;
 
+import BlogModel from "../app/model/blogModel.js";
+import mongoose from 'mongoose';
 
+
+
+/*--------- Only valid user can do get this services start here--------------- */
 // Blog Creating
 export const BlogCreateServices = async (req) => {
     try {
@@ -62,7 +65,11 @@ export const BlogCreateServices = async (req) => {
   }
   }
 
+  /*--------- Only valid user can do get this services end here--------------- */
 
+
+
+/*----------- Anyone get this services start here--------------- */
   // Read All Blogs
 export const AllBlogReadServices = async () => {
   try {
@@ -74,7 +81,6 @@ export const AllBlogReadServices = async () => {
      return {status: "Error", message: e.toString()}
   }
 };
-
 
 
  // Blog details
@@ -97,3 +103,19 @@ export const AllBlogReadServices = async () => {
      return {status: "Error", message: "Internal server error"}
   }
 };
+
+
+export const blogByCategoryService = async (req) => {
+  try {
+
+    const categoryId = req.params['categoryId'];
+    const data = await BlogModel.find({categoryId}); // Search data using categoryId
+
+    return {status: "success", data: data};
+
+  }catch(e) {
+    console.log(e.toString());
+    return {status: "Error", message: "Internal server error"};
+  }
+}
+/*----------- Anyone get this services start here--------------- */

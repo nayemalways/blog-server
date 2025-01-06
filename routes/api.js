@@ -9,7 +9,8 @@ const router = express.Router();
 
 
 // Admin API
-router.post('/category', categoryControllers.CreateCategory);
+router.post('/admin/category', categoryControllers.CreateCategory);
+router.put('/admin/update-category/:categoryId', categoryControllers.UpdateCategory);
 
 
 // User's API
@@ -24,6 +25,7 @@ router.delete('/delete/:blogId', authVerify, blogController.deleteBlog);
 router.get('/blogs', blogController.ReadAllBlog);
 router.get('/blog-details/:id', blogController.blogDetails);
 router.get('/categories', categoryControllers.CategoryList);
+router.get('/blogs/category/:categoryId', blogController.blogByCategory);
 
 
 export default router;
