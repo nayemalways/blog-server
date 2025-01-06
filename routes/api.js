@@ -25,6 +25,7 @@ router.delete('/delete/:blogId', authVerify, blogController.deleteBlog);
 router.get('/blogs', blogController.ReadAllBlog);
 router.get('/blog-details/:id', blogController.blogDetails);
 router.get('/categories', categoryControllers.CategoryList);
+router.get('/blogs/category/:categoryId', blogController.blogByCategory);
 
 
 export default router;
