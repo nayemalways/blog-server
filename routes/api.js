@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 // Admin API
-router.post('/category', categoryControllers.CreateCategory);
+router.post('/admin/category', categoryControllers.CreateCategory);
 
 
 // User's API
