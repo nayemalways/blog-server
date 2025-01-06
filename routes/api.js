@@ -10,6 +10,7 @@ const router = express.Router();
 
 // Admin API
 router.post('/admin/category', categoryControllers.CreateCategory);
+router.put('/admin/update-category/:categoryId', categoryControllers.UpdateCategory);
 
 
 // User's API
