@@ -48,16 +48,15 @@ export const AllBlogReadServices = async () => {
   try {
 
     const id = new ObjectId(req.params.id);
-    const query = {_id: id};
-    const data = await BlogModel.find(query);
+    const data = await BlogModel.find({_id: id});
 
-
-     if(!data || data.length === 0){
+    // If "data" has no data(blog) by specific id return this message
+    if(!data || data.length === 0){
        return  {status: "failed", message: "No blog found"};
-     }else{
-       return  {status: "success", data: data};
-     }
+    } 
 
+    // If data found by specific blogs id , returns this message
+    return {status: "success", data: data};
 
   }catch(e){
     console.log(e.toString());

@@ -8,7 +8,7 @@ export const DB_PASSWORD = process.env.DB_PASSWORD;
 
 // TOKEN AUTH
 export const JWT_SECRET = process.env.JWT_SECRET;
-export const JWT_EXPIRATION_TIME = process.env.JWT_EXPIRATION_TIME;
+export const JWT_EXPIRATION_TIME = Number(process.env.JWT_EXPIRATION_TIME);
 
 // REQUEST LIMITING CONFIG
 export const REQUEST_LIMIT_TIME = process.env.REQUEST_LIMIT_TIME;
