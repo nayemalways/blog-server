@@ -1,4 +1,4 @@
-import { AllBlogReadServices, BlogCreateServices, blogDetailsService } from "../../services/blogService.js"
+import { AllBlogReadServices, BlogCreateServices, blogDetailsService, UpdateBlogService } from "../../services/blogService.js"
 
 // Create New Blog
 export const blogCreate = async (req, res) => {
@@ -9,6 +9,15 @@ export const blogCreate = async (req, res) => {
 
     }
 }
+
+
+// Update blog 
+export const updateBlog = async (req, res) => {
+    const result = await UpdateBlogService(req);
+    res.json(result);
+}
+
+
 
 // Read all blogs
 export const ReadAllBlog = async (req, res) => {

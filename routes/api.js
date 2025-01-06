@@ -16,6 +16,7 @@ router.post('/category', categoryControllers.CreateCategory);
 router.post('/Register', userController.Register);
 router.post('/Login', userController.Login);
 router.post('/post-blog', authVerify, blogController.blogCreate);
+router.put('/update-blog/:blogId', authVerify, blogController.updateBlog);
 
 
 // Blog Services APi

@@ -28,6 +28,23 @@ export const BlogCreateServices = async (req) => {
   };
 
 
+
+  // Update blogs 
+  export const UpdateBlogService = async (req) => {
+    try {
+        const userId = req.headers['user_id'];
+        const blogId = req.params['blogId'];
+        const reqBody = req.body; // Updated data given by user's
+
+        await BlogModel.updateOne( { _id: blogId, userId: userId }, reqBody ); // Updates the blog
+        return {status: "success", message: "Blog update success"}; // Returns response after update has complete
+
+    }catch(e) {
+      console.log(e.toString());
+      return {status: "Error", message: "Internal server error"};
+    }
+  }
+
   // Read All Blogs
 export const AllBlogReadServices = async () => {
   try {
@@ -39,7 +56,6 @@ export const AllBlogReadServices = async () => {
      return {status: "Error", message: e.toString()}
   }
 };
-
 
 
 
