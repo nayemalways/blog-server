@@ -22,7 +22,7 @@ router.delete('/delete/:blogId', authVerify, blogController.deleteBlog);
 
 // Blog global services APi
 router.get('/blogs', blogController.ReadAllBlog);
-router.get('/blog-details/:id', authVerify, blogController.blogDetails);
+router.get('/blog-details/:id', blogController.blogDetails);
 router.get('/categories', categoryControllers.CategoryList);
 
 
