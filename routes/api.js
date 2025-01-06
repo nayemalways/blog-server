@@ -16,9 +16,9 @@ router.post('/Login', userController.Login);
 
 
 // Blog Services
-router.post('/blogCreate', authVerify, blogController.blogCreate);
-router.get('/ReadAll', authVerify, blogController.ReadAllBlog);
-router.get('/ReadSingle/:id', authVerify, blogController.ReadSingleBlog);
+router.post('/post-blog', authVerify, blogController.blogCreate);
+router.get('/blogs', authVerify, blogController.ReadAllBlog);
+router.get('/blog-details/:id', authVerify, blogController.blogDetails);
 
 
 export default router;
