@@ -19,6 +19,7 @@ router.post('/Login', userController.Login);
 router.post('/post-blog', authVerify, blogController.blogCreate);
 router.get('/blogs', authVerify, blogController.ReadAllBlog);
 router.get('/blog-details/:id', authVerify, blogController.blogDetails);
+router.get('/categories', authVerify, categoryControllers.CategoryList);
 
 
 export default router;
