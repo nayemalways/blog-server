@@ -41,7 +41,6 @@
 
 
         const login = await UserModel.find({email});
-        console.log(login[0]['password']);
         
         if(!login || login.length === 0){
             return {status: "failed", message: "User not found"};
