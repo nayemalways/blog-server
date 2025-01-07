@@ -2,6 +2,7 @@
 
  import UserModel from "../app/model/userModel.js";
  import {EncodeToken} from "../app/utility/tokenUtility.js";
+import SendEmail from '../app/utility/EmailSender.js';
 
 
 
@@ -27,7 +28,7 @@
 
     // Send data to DB for User Registrations
     const data = await UserModel.create(userData);
-    return {status: "success", data: data}
+    return {status: "success", message: 'Registration success!'}
  
    }catch(e){
       return {status: "Error", message: e.toString()}
@@ -61,5 +62,138 @@
 
     }catch(e){
         return {status: "Error", error: e.toString()}
+    }
+ }
+
+
+ export const forgetPasswordService = async (req) => {
+    try {
+        const { email } = req.body;
+        const search__user = await UserModel.find({email});
+        
+        // Check user found or not
+        if(search__user.length === 0) {
+            return {status: "fail", message: "No user found"};
+        }
+
+        // Generate Six digit random number (OTP)
+        const otp = Math.floor( 100000 + Math.random() * 999999);
+        const EmailTo = search__user[0]['email'];
+        const EmailText = '';
+        const EmailSubject = 'Password Reset Request for Blog App';
+        const EmailHTMLBody = `
+                    <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            body {
+                            font-family: Arial, sans-serif;
+                            margin: 0;
+                            padding: 0;
+                            background-color: #f4f4f4;
+                            }
+                            .email-container {
+                            max-width: 600px;
+                            margin: 20px auto;
+                            background: #ffffff;
+                            border-radius: 8px;
+                            overflow: hidden;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                            }
+                            .header {
+                            background-color: #007bff;
+                            color: white;
+                            text-align: center;
+                            padding: 20px;
+                            }
+                            .header h1 {
+                            margin: 0;
+                            font-size: 24px;
+                            }
+                            .content {
+                            padding: 20px;
+                            color: #333;
+                            }
+                            .content h2 {
+                            color: #007bff;
+                            }
+                            .content p {
+                            margin: 10px 0;
+                            line-height: 1.5;
+                            }
+                            .otp {
+                            font-size: 24px;
+                            font-weight: bold;
+                            color: #333;
+                            text-align: center;
+                            margin: 20px 0;
+                            background-color: #f8f9fa;
+                            padding: 10px;
+                            border: 1px dashed #007bff;
+                            border-radius: 5px;
+                            }
+                            .btn {
+                            display: inline-block;
+                            padding: 10px 20px;
+                            background-color: #007bff;
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            text-align: center;
+                            margin: 20px auto;
+                            display: block;
+                            width: fit-content;
+                            }
+                            .footer {
+                            text-align: center;
+                            font-size: 12px;
+                            color: #777;
+                            padding: 10px;
+                            background-color: #f4f4f4;
+                            }
+                        </style>
+                        </head>
+                        <body>
+                        <div class="email-container">
+                            <div class="header">
+                            <h1>Blog App</h1>
+                            </div>
+                            <div class="content">
+                            <h2>Password Reset Request</h2>
+                            <p>Hi ${search__user[0]['firstName']},</p>
+                            <p>We received a request to reset your password for your Blog App account. Please use the following OTP (One-Time Password) to proceed:</p>
+                            <div class="otp">${otp}</div>
+                            <p>This OTP is valid for the next <strong>10 minutes</strong>. If you did not request this reset, you can safely ignore this email.</p>
+                            <a href="[Reset Password Link]" class="btn">Reset Password</a>
+                            <p>If you have any questions or need help, feel free to contact our support team.</p>
+                            </div>
+                            <div class="footer">
+                            <p>&copy; 2025 Blog App. All rights reserved.</p>
+                            </div>
+                        </div>
+                        </body>
+                        </html>
+
+        `;
+
+
+        // Send Otp to user's email
+        const email__send = await SendEmail(EmailTo, EmailText, EmailSubject, EmailHTMLBody);
+        if(!email__send) {
+            return {status: "fail", message: "Email couldn't be sent"}
+        }
+
+
+        // Update Otp code in the Database
+        await UserModel.updateOne({email}, {otp});
+        // Final result
+        return {status: "success", message: " A six digit otp has been sent"};
+
+
+    }catch(e) {
+        console.log(e.toString());
+        return {status: "Error", message: "Internal server error"};
     }
  }

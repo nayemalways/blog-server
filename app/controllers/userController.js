@@ -1,4 +1,4 @@
-import { UserLogin, UserRegistration } from "../../services/userServices.js";
+import { forgetPasswordService, UserLogin, UserRegistration } from "../../services/userServices.js";
 
  // User Registration
  export const Register = async (req, res) => {
@@ -18,4 +18,11 @@ import { UserLogin, UserRegistration } from "../../services/userServices.js";
    res.json(result);
  }
 
+
+
+ // If Forget password send OTP
+ export const forgetPassword = async (req, res) => {
+   const result = await forgetPasswordService(req);
+   res.json(result);
+ };
  
