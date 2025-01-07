@@ -20,6 +20,11 @@ router.post('/post-blog', authVerify, blogController.blogCreate);
 router.put('/update-blog/:blogId', authVerify, blogController.updateBlog);
 router.delete('/delete/:blogId', authVerify, blogController.deleteBlog);
 
+// User Password Reset
+router.post('/forget-password', userController.forgetPassword);
+router.post('/otp-verify/:email/:otp', userController.OtpVerify);
+router.post('/reset-password', userController.ResetPassword);
+
 
 // Blog global services APi
 router.get('/blogs', blogController.ReadAllBlog);

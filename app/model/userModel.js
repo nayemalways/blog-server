@@ -7,7 +7,8 @@ const DataSchema = mongoose.Schema(
     firstName: {type: String, required: true},
     lastName:  {type: String, required: true},
     phone:  {type: String, required: true},
-    img:  {type: String, required: true}
+    img:  {type: String, required: true},
+    otp: {type: String, default: 0}
 },
 {
     timestamps: true,
