@@ -39,20 +39,14 @@ import SendEmail from '../app/utility/EmailSender.js';
  // User login
  export const UserLogin = async (req) => {
     try {
+
         const {email, password} = req.body;
+        const login = await UserModel.find({email}); // Search user
+        if(!login || login.length === 0) return {status: "failed", message: "User not found"};
 
-
-        const login = await UserModel.find({email});
-        
-        if(!login || login.length === 0){
-            return {status: "failed", message: "User not found"};
-        } 
-
-        // Checke password are matched in
-        const isPasswordMatch = await bcrypt.compare(password, login[0]['password']);
-        if(isPasswordMatch === false) {
-            return {status: "fail", message: "Password doesn't match"};
-        }
+        // Check password are matched
+        const isPasswordMatch = await bcrypt.compare(password, login[0]['password']); // Compare password between hashed password
+        if(isPasswordMatch === false) return {status: "fail", message: "Password doesn't match"};
 
         // Encode user Id and email in JWT
         const id = login[0]['_id'];
