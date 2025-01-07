@@ -27,7 +27,7 @@ import SendEmail from '../app/utility/EmailSender.js';
 
 
     // Send data to DB for User Registrations
-    const data = await UserModel.create(userData);
+    await UserModel.create(userData);
     return {status: "success", message: 'Registration success!'}
  
    }catch(e){
@@ -68,9 +68,7 @@ import SendEmail from '../app/utility/EmailSender.js';
         const search__user = await UserModel.find({email});
         
         // Check user found or not
-        if(search__user.length === 0) {
-            return {status: "fail", message: "No user found"};
-        }
+        if(search__user.length === 0) return {status: "fail", message: "No user found"};
 
         // Generate Six digit random number (OTP)
         const otp = Math.floor( 100000 + Math.random() * 999999);
@@ -177,9 +175,7 @@ import SendEmail from '../app/utility/EmailSender.js';
 
         // Send Otp to user's email
         const email__send = await SendEmail(EmailTo, EmailText, EmailSubject, EmailHTMLBody);
-        if(!email__send) {
-            return {status: "fail", message: "Email couldn't be sent"}
-        }
+        if(!email__send) return {status: "fail", message: "Email couldn't be sent"};
 
 
         // Update Otp code in the Database
@@ -194,24 +190,16 @@ import SendEmail from '../app/utility/EmailSender.js';
     }
  }
 
+
  // OTP verification
  export const OtpVerifyService = async (req) => {
     try {
 
         const {email, otp} = req.params;
         // Filter user using email and otp
-        const data = await UserModel.aggregate([
-           {
-            $match: {email: email, otp: otp}
-           }
-        ])
-        
-
+        const data = await UserModel.aggregate([{ $match: {email: email, otp: otp}}]);       
         // If otp match or not. If otp doesn't matched the data.length will be zero
-        if (data.length === 0) {
-           return {status: "fail", message: "Otp doesn't matched"};
-          }
-
+        if (data.length === 0) return {status: "fail", message: "Otp doesn't matched"};
         // Final result
         return {status: "Success", message: "Verification successful"};
 
@@ -227,11 +215,7 @@ export const ResetPasswordService = async (req) => {
 
         const {email, otp, password} = req.body;
         const Search_User = await UserModel.find({email, otp}); // Search user
-
-
-        if(Search_User.length === 0 || Search_User === null) {
-            return {status: "fail", message: "User unauthorized"};
-        }
+        if(Search_User.length === 0 || Search_User === null)  return {status: "fail", message: "User unauthorized"};
 
         
         let saltRounds  = 10; // Salt Rounds
@@ -242,10 +226,8 @@ export const ResetPasswordService = async (req) => {
         }); // Update Password
 
 
-        if(updatePassword.modifiedCount === 0){
-            return {status: "fail", message: "Password reset failed"};
-        }
-
+        // If not update  return it
+        if(updatePassword.modifiedCount === 0) return {status: "fail", message: "Password reset failed"};
         // Final result
         return {status: "Success", message: "Password reset successful"};
 
