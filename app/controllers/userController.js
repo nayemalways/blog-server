@@ -1,4 +1,8 @@
-import { UserLogin, UserRegistration } from "../../services/userServices.js";
+import { 
+  forgetPasswordService, 
+  OtpVerifyService, 
+  UserLogin, 
+  UserRegistration } from "../../services/userServices.js";
 
  // User Registration
  export const Register = async (req, res) => {
@@ -18,4 +22,17 @@ import { UserLogin, UserRegistration } from "../../services/userServices.js";
    res.json(result);
  }
 
- 
+
+
+ // If Forget password send OTP
+ export const forgetPassword = async (req, res) => {
+   const result = await forgetPasswordService(req);
+   res.json(result);
+ };
+
+
+ // User's given OTP matching
+ export const OtpVerify = async (req, res) => {
+  const result = await OtpVerifyService(req);
+  res.json(result);
+ }
