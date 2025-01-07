@@ -5,7 +5,7 @@
 
 
 
- 
+
  export const UserRegistration = async (req) => {
    try {
     const {email, password, firstName, lastName, phone, img} = req.body;
@@ -37,27 +37,29 @@
 
  export const UserLogin = async (req) => {
     try {
-        const reqBody = req.body;
-        const login = await UserModel.aggregate([
-            {
-                $match: reqBody
-            },
-            {
-                $project: {
-                    _id: 1,
-                    email: 1
-                }
-            }
-        ]);
+        const {email, password} = req.body;
+
+
+        const login = await UserModel.find({email});
+        console.log(login[0]['password']);
         
         if(!login || login.length === 0){
-            return {status: "failed", message: "email or password worng!"};
-        }else{
-            const email = login[0]['email'];
-            const id = login[0]['_id'];
-            const token =  EncodeToken(email, id);
-            return {status: "success", message: "Login success", Token: token};
+            return {status: "failed", message: "User not found"};
+        } 
+
+        // Checke password are matched in
+        const isPasswordMatch = await bcrypt.compare(password, login[0]['password']);
+        if(isPasswordMatch === false) {
+            return {status: "fail", message: "Password doesn't match"};
         }
+
+        // Encode user Id and email in JWT
+        const id = login[0]['_id'];
+        const token =  EncodeToken(email, id);
+
+        // Final result
+        return {status: "success", Token: token};
+
     }catch(e){
         return {status: "Error", error: e.toString()}
     }
