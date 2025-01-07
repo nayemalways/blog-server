@@ -1,6 +1,7 @@
 import { 
   forgetPasswordService, 
   OtpVerifyService, 
+  ResetPasswordService, 
   UserLogin, 
   UserRegistration } from "../../services/userServices.js";
 
@@ -34,5 +35,12 @@ import {
  // User's given OTP matching
  export const OtpVerify = async (req, res) => {
   const result = await OtpVerifyService(req);
+  res.json(result);
+ }
+
+
+ // Reset password
+ export const ResetPassword = async (req, res) => {
+  const result = await ResetPasswordService(req);
   res.json(result);
  }

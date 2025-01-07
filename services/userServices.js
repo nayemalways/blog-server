@@ -213,7 +213,6 @@ import SendEmail from '../app/utility/EmailSender.js';
         ])
         
 
-
         // If otp match or not. If otp doesn't matched the data.length will be zero
         if (data.length === 0) {
            return {status: "fail", message: "Otp doesn't matched"};
@@ -221,6 +220,40 @@ import SendEmail from '../app/utility/EmailSender.js';
 
         // Final result
         return {status: "Success", message: "Verification successful"};
+
+    }catch(e) {
+        console.log(e.toString());
+        return {status: "Error", message: "Internal server error"}
+    }
+ }
+
+
+export const ResetPasswordService = async (req) => {
+    try {
+
+        const {email, otp, password} = req.body;
+        const Search_User = await UserModel.find({email, otp}); // Search user
+
+
+        if(Search_User.length === 0 || Search_User === null) {
+            return {status: "fail", message: "User unauthorized"};
+        }
+
+        
+        let saltRounds  = 10; // Salt Rounds
+        const hashPassword = await bcrypt.hash(password, saltRounds); // Generate Hash Password      
+        const updatePassword = await UserModel.updateOne({email}, {
+            otp: "0",
+            password: hashPassword
+        }); // Update Password
+
+
+        if(updatePassword.modifiedCount === 0){
+            return {status: "fail", message: "Password reset failed"};
+        }
+
+        // Final result
+        return {status: "Success", message: "Password reset successful"};
 
     }catch(e) {
         console.log(e.toString());
