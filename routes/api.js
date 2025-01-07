@@ -22,6 +22,7 @@ router.delete('/delete/:blogId', authVerify, blogController.deleteBlog);
 
 // User Password Reset
 router.post('/forget-password', userController.forgetPassword);
+router.post('/otp-verify/:email/:otp', userController.OtpVerify);
 
 
 // Blog global services APi

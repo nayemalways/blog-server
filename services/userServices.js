@@ -6,7 +6,7 @@ import SendEmail from '../app/utility/EmailSender.js';
 
 
 
-
+// User Sign up
  export const UserRegistration = async (req) => {
    try {
     const {email, password, firstName, lastName, phone, img} = req.body;
@@ -36,6 +36,7 @@ import SendEmail from '../app/utility/EmailSender.js';
  };
 
 
+ // User login
  export const UserLogin = async (req) => {
     try {
         const {email, password} = req.body;
@@ -66,6 +67,7 @@ import SendEmail from '../app/utility/EmailSender.js';
  }
 
 
+ // Forget password
  export const forgetPasswordService = async (req) => {
     try {
         const { email } = req.body;
@@ -195,5 +197,33 @@ import SendEmail from '../app/utility/EmailSender.js';
     }catch(e) {
         console.log(e.toString());
         return {status: "Error", message: "Internal server error"};
+    }
+ }
+
+ // OTP verification
+ export const OtpVerifyService = async (req) => {
+    try {
+
+        const {email, otp} = req.params;
+        // Filter user using email and otp
+        const data = await UserModel.aggregate([
+           {
+            $match: {email: email, otp: otp}
+           }
+        ])
+        
+
+
+        // If otp match or not. If otp doesn't matched the data.length will be zero
+        if (data.length === 0) {
+           return {status: "fail", message: "Otp doesn't matched"};
+          }
+
+        // Final result
+        return {status: "Success", message: "Verification successful"};
+
+    }catch(e) {
+        console.log(e.toString());
+        return {status: "Error", message: "Internal server error"}
     }
  }
