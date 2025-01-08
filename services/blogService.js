@@ -81,7 +81,46 @@ export const BlogCreateServices = async (req) => {
 export const AllBlogReadServices = async () => {
   try {
 
-    const data = await BlogModel.find();
+     // Query
+    //  const matchQuery = {$match: {userId: userId}};
+
+     const JoinWithUserstage = {$lookup: {from: 'users', localField: 'userId', foreignField: '_id', as: "user"}};
+     const JoinWithCategoryStage = {$lookup: {from: 'categories', localField: 'categoryId', foreignField: '_id', as: "category"}};
+
+     const unwindUserStage = {$unwind: '$user'};
+     const unwindCategoryStage = {$unwind: '$category'};
+
+     const projection = {$project:{
+       
+      "user._id": 0,
+      "user.email": 0,
+      "user.password": 0,
+      "user.phone": 0,
+      "user.otp": 0,
+      "user.createdAt": 0,
+      "user.updatedAt": 0,
+      "category._id": 0,
+      "category.email": 0,
+      "category.password": 0,
+      "category.phone": 0,
+      "category.otp": 0,
+      "category.createdAt": 0,
+      "category.updatedAt": 0,
+     }}
+ 
+
+
+     // Filtering Data
+     const data = await BlogModel.aggregate([
+      JoinWithUserstage,
+      JoinWithCategoryStage,
+      unwindUserStage,
+      unwindCategoryStage,
+      projection
+  ])
+
+
+    // Final result
     return  {status: "success", data: data};
 
   }catch(e){
