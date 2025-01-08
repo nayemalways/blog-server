@@ -5,19 +5,26 @@ import BlogModel from "../app/model/blogModel.js";
 import mongoose from 'mongoose';
 
 
-
 /*--------- Only valid user can do get this services start here--------------- */
 // Blog Creating
 export const BlogCreateServices = async (req) => {
     try {
 
-      const userId = req.headers['user_id'];
-      const reqBody = req.body;
-      reqBody.userId = userId;
+      const userId = new ObjectId(req.headers['user_id']);
+      const {title, description, img, categoryId } = req.body;
+      const category_Id = new ObjectId(categoryId);
+
+      const Blog__data = {
+        title,
+        description,
+        img,
+        categoryId: category_Id,
+        userId
+      }
 
       // Checked important data found or not from user's . If found it will create Blogs
-      if(reqBody.title && reqBody.description){
-         const data = await BlogModel.create(reqBody);
+      if(title && description && categoryId){
+         const data = await BlogModel.create(Blog__data);
          return{status: "success", data: data}
        } 
 
