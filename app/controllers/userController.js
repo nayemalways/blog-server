@@ -1,6 +1,7 @@
 import { 
   forgetPasswordService, 
   OtpVerifyService, 
+  profileService, 
   ResetPasswordService, 
   UserLogin, 
   UserRegistration } from "../../services/userServices.js";
@@ -23,6 +24,12 @@ import {
    res.json(result);
  }
 
+
+ // User Profile Login
+ export const profile = async (req, res) => {
+  const result = await profileService(req);
+  res.json(result);
+ }
 
 
  // If Forget password send OTP
