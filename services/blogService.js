@@ -81,9 +81,9 @@ export const BlogCreateServices = async (req) => {
 export const AllBlogReadServices = async () => {
   try {
 
-     // Query
-    //  const matchQuery = {$match: {userId: userId}};
+     
 
+    // Data base query
      const JoinWithUserstage = {$lookup: {from: 'users', localField: 'userId', foreignField: '_id', as: "user"}};
      const JoinWithCategoryStage = {$lookup: {from: 'categories', localField: 'categoryId', foreignField: '_id', as: "category"}};
 
