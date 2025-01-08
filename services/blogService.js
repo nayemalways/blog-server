@@ -133,8 +133,45 @@ export const AllBlogReadServices = async () => {
  export const blogDetailsService = async (req) => {
   try {
 
-    const id = new ObjectId(req.params.id);
-    const data = await BlogModel.find({_id: id});
+    const blogId = new ObjectId(req.params.blogId);
+    
+     // Data base query
+     const matchStage = {$match: {_id: blogId}}
+     const JoinWithUserstage = {$lookup: {from: 'users', localField: 'userId', foreignField: '_id', as: "user"}};
+     const JoinWithCategoryStage = {$lookup: {from: 'categories', localField: 'categoryId', foreignField: '_id', as: "category"}};
+
+     const unwindUserStage = {$unwind: '$user'};
+     const unwindCategoryStage = {$unwind: '$category'};
+
+     const projection = {$project:{
+       
+      "user._id": 0,
+      "user.email": 0,
+      "user.password": 0,
+      "user.phone": 0,
+      "user.otp": 0,
+      "user.createdAt": 0,
+      "user.updatedAt": 0,
+      "category._id": 0,
+      "category.email": 0,
+      "category.password": 0,
+      "category.phone": 0,
+      "category.otp": 0,
+      "category.createdAt": 0,
+      "category.updatedAt": 0,
+     }}
+ 
+
+
+     // Filtering Data
+     const data = await BlogModel.aggregate([
+      matchStage,
+      JoinWithUserstage,
+      JoinWithCategoryStage,
+      unwindUserStage,
+      unwindCategoryStage,
+      projection
+  ])
 
     // If "data" has no data(blog) by specific id return this message
     if(!data || data.length === 0){

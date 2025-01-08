@@ -29,7 +29,7 @@ router.post('/reset-password', userController.ResetPassword);
 
 // Blog global services APi
 router.get('/blogs', blogController.ReadAllBlog);
-router.get('/blog-details/:id', blogController.blogDetails);
+router.get('/blog-details/:blogId', blogController.blogDetails);
 router.get('/categories', categoryControllers.CategoryList);
 router.get('/blogs/category/:categoryId', blogController.blogByCategory);
 
