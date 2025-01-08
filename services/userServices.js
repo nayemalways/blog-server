@@ -3,6 +3,10 @@
  import UserModel from "../app/model/userModel.js";
  import {EncodeToken} from "../app/utility/tokenUtility.js";
 import SendEmail from '../app/utility/EmailSender.js';
+import BlogModel from '../app/model/blogModel.js';
+import mongoose from 'mongoose';
+
+const ObjectId = mongoose.Types.ObjectId;
 
 
 
@@ -60,6 +64,38 @@ import SendEmail from '../app/utility/EmailSender.js';
     }
  }
 
+
+ // Profile view
+ export const profileService = async (req) => {
+    try {
+        const userId = new ObjectId(req.headers.user_id);
+
+        // Query
+        const matchQuery = {$match: {userId: userId}};
+
+        const JoinWithUserstage = {$lookup: {from: 'users', localField: 'userId', foreignField: '_id', as: "user"}};
+        const JoinWithCategoryStage = {$lookup: {from: 'categories', localField: 'categoryId', foreignField: '_id', as: "category"}};
+
+        const unwindUserStage = {$unwind: '$user'};
+        const unwindCategoryStage = {$unwind: '$category'};
+
+
+        // Filtering Data
+        const data = await BlogModel.aggregate([
+            matchQuery,
+            JoinWithUserstage,
+            JoinWithCategoryStage,
+            unwindUserStage,
+            unwindCategoryStage
+        ])
+
+        return {status: "success", data: data};
+
+    }catch(e) {
+        console.log(e.toString());
+        return {status: "Error", message: "Internal server error"};
+    }
+ }
 
  // Forget password
  export const forgetPasswordService = async (req) => {
@@ -210,6 +246,7 @@ import SendEmail from '../app/utility/EmailSender.js';
  }
 
 
+ // Password reset
 export const ResetPasswordService = async (req) => {
     try {
 
