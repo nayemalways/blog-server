@@ -49,7 +49,7 @@ mongoose.connect(DATABASE, options)
 
 
 // ROUTING
-app.use('/api',  router);
+app.use('/',  router);
 
 
 // *** APPLICATION LISTENING ***
