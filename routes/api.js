@@ -16,7 +16,7 @@ router.put('/admin/update-category/:categoryId', categoryControllers.UpdateCateg
 // User's API
 router.post('/register', userController.Register);
 router.post('/login', userController.Login);
-router.get('/profile', authVerify, userController.profile);
+router.get('/my-blog', authVerify, userController.userBlog);
 router.post('/post-blog', authVerify, blogController.blogCreate);
 router.put('/update-blog/:blogId', authVerify, blogController.updateBlog);
 router.delete('/delete/:blogId', authVerify, blogController.deleteBlog);

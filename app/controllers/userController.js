@@ -1,7 +1,7 @@
 import { 
   forgetPasswordService, 
+  myBlogService, 
   OtpVerifyService, 
-  profileService, 
   ResetPasswordService, 
   UserLogin, 
   UserRegistration } from "../../services/userServices.js";
@@ -25,9 +25,9 @@ import {
  }
 
 
- // User Profile Login
- export const profile = async (req, res) => {
-  const result = await profileService(req);
+ // User's all blog
+ export const userBlog = async (req, res) => {
+  const result = await myBlogService(req);
   res.json(result);
  }
 

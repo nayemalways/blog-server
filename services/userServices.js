@@ -70,8 +70,8 @@ const ObjectId = mongoose.Types.ObjectId;
  }
 
 
- // Profile view
- export const profileService = async (req) => {
+ // My Blog
+ export const myBlogService = async (req) => {
     try {
         const userId = new ObjectId(req.headers.user_id);
 
