@@ -35,7 +35,11 @@ const ObjectId = mongoose.Types.ObjectId;
     return {status: "success", message: 'Registration success!'}
  
    }catch(e){
-      return {status: "Error", message: e.toString()}
+    if (e.errorResponse?.code === 11000) {
+        return { status: "error", message: "User already exists!" };
+    } else {
+        return { status: "error", message: "Internal server error", error: e.errorResponse?.code || e.message };
+    }
    }
  };
 

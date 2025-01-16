@@ -14,8 +14,8 @@ router.put('/admin/update-category/:categoryId', categoryControllers.UpdateCateg
 
 
 // User's API
-router.post('/Register', userController.Register);
-router.post('/Login', userController.Login);
+router.post('/register', userController.Register);
+router.post('/login', userController.Login);
 router.get('/profile', authVerify, userController.profile);
 router.post('/post-blog', authVerify, blogController.blogCreate);
 router.put('/update-blog/:blogId', authVerify, blogController.updateBlog);
