@@ -61,10 +61,11 @@ const ObjectId = mongoose.Types.ObjectId;
         const token =  EncodeToken(email, id);
 
         // Final result
-        return {status: "success", Token: token};
+        return {status: "success", message: "Login success", Token: token};
 
     }catch(e){
-        return {status: "Error", error: e.toString()}
+        console.log(e.toString());
+        return {status: "Error", message: "Internal server error"}
     }
  }
 
