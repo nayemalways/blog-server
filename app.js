@@ -14,7 +14,7 @@ const app = express();
 
 
 // APPLICATION GLOBAL MIDDLEWARE
-app.use(cors({ credentials: true, origin: "https://blogverse-igtn.onrender.com" }));
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(helmet());
 app.use(hpp());
 app.use(express.urlencoded({extended: URL_ENCODED}));
