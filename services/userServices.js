@@ -69,6 +69,14 @@ const ObjectId = mongoose.Types.ObjectId;
     }
  }
 
+ export const LogoutService = async (res) => {
+    try {
+        res.clearCookie("token");
+        return {status: "success", message: "Logout success"};
+    }catch(e) {
+        return {status: "Error", message: "Internal server error"};
+    }
+ }
 
  // My Blog
  export const myBlogService = async (req) => {

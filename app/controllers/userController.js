@@ -1,5 +1,6 @@
 import { 
   forgetPasswordService, 
+  LogoutService, 
   myBlogService, 
   OtpVerifyService, 
   ResetPasswordService, 
@@ -24,6 +25,12 @@ import {
    res.json(result);
  }
 
+
+ // Logout
+ export const Logout = async (req, res) => {
+    const result = await LogoutService(res);
+    res.json(result);
+ }
 
  // User's all blog
  export const userBlog = async (req, res) => {
