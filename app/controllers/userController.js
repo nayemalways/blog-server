@@ -1,7 +1,8 @@
 import { 
   forgetPasswordService, 
+  LogoutService, 
+  myBlogService, 
   OtpVerifyService, 
-  profileService, 
   ResetPasswordService, 
   UserLogin, 
   UserRegistration } from "../../services/userServices.js";
@@ -18,16 +19,29 @@ import {
    const result = await UserLogin(req);
 
    // User AUTH token set to cookie
-   const cookieOptions = {expires: new Date(Date.now() + 24*60*60*1000), httpOnly: false};
+   const cookieOptions = {
+    expires: new Date(Date.now() + 30*24*60*60*1000), 
+    httpOnly: false,
+    sameSite: "none",
+    secure: true,
+    path: "/"
+  };
+  
    res.cookie('token', result['Token'], cookieOptions);
 
    res.json(result);
  }
 
 
- // User Profile Login
- export const profile = async (req, res) => {
-  const result = await profileService(req);
+ // Logout
+ export const Logout = async (req, res) => {
+    const result = await LogoutService(res);
+    res.json(result);
+ }
+
+ // User's all blog
+ export const userBlog = async (req, res) => {
+  const result = await myBlogService(req);
   res.json(result);
  }
 

@@ -35,7 +35,11 @@ const ObjectId = mongoose.Types.ObjectId;
     return {status: "success", message: 'Registration success!'}
  
    }catch(e){
-      return {status: "Error", message: e.toString()}
+    if (e.errorResponse?.code === 11000) {
+        return { status: "error", message: "User already exists!" };
+    } else {
+        return { status: "error", message: "Internal server error", error: e.errorResponse?.code || e.message };
+    }
    }
  };
 
@@ -57,16 +61,25 @@ const ObjectId = mongoose.Types.ObjectId;
         const token =  EncodeToken(email, id);
 
         // Final result
-        return {status: "success", Token: token};
+        return {status: "success", message: "Login success", Token: token};
 
     }catch(e){
-        return {status: "Error", error: e.toString()}
+        console.log(e.toString());
+        return {status: "Error", message: "Internal server error"}
     }
  }
 
+ export const LogoutService = async (res) => {
+    try {
+        res.clearCookie("token");
+        return {status: "success", message: "Logout success"};
+    }catch(e) {
+        return {status: "Error", message: "Internal server error"};
+    }
+ }
 
- // Profile view
- export const profileService = async (req) => {
+ // My Blog
+ export const myBlogService = async (req) => {
     try {
         const userId = new ObjectId(req.headers.user_id);
 
